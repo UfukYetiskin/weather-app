@@ -1,23 +1,24 @@
 import './App.css';
+import {fetchWeatherThunk, fetchIstWeatherThunk} from './redux/weatherSlice'
+import {useState, useEffect} from 'react'
+import {useSelector, useDispatch} from 'react-redux'
+
 
 function App() {
+  const dispatch = useDispatch();
+  const weatherData = useSelector(state => state.weather.items)
+  const istWeatherData = useSelector(state => state.weather.istData)
+  useEffect(() => {
+    dispatch(fetchIstWeatherThunk())
+  }, [dispatch])
+  console.log(istWeatherData)
   return (
     <div className="App">
-      <header className="App-header">
-        
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        Filizciğim
-      </header>
+      <div className="App-header">
+        <h1>City : {istWeatherData.name}</h1>
+        {istWeatherData.main.temp / 10}°
+        Filizciğim  
+      </div>
       
     </div>
   );
