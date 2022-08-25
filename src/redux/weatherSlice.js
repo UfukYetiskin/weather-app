@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const fetchWeatherThunk = createAsyncThunk("weather/fetchWeatherThunk", async (city) => {
-    const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=0e8b2c4e5a41d2b3b81897c77b9e4d88`)
+    const res = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&cnt=5&appid=0e8b2c4e5a41d2b3b81897c77b9e4d88#`)   
     return res.json();
 })
 // export const fetchIstWeatherThunk = createAsyncThunk("weather/fetchIstWeatherThunk", async (city) => {
@@ -14,8 +14,6 @@ const weatherSlice = createSlice({
     initialState : {
         items : {},
         status : "idle",
-        istData : {},
-        istStatus : "idle"
     },
     reducers : {
 

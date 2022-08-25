@@ -8,14 +8,17 @@ import {AiOutlineCloud} from '@react-icons/all-files/ai/AiOutlineCloud'
 import {RiRainyLine} from "@react-icons/all-files/ri/RiRainyLine"
 import {FaTemperatureLow} from "@react-icons/all-files/fa/FaTemperatureLow"
 import {TiWeatherPartlySunny} from "@react-icons/all-files/ti/TiWeatherPartlySunny"
+import {GiNightSky} from "@react-icons/all-files/gi/GiNightSky"
+
+
 function App() {
   const dispatch = useDispatch();
   const weatherData = useSelector(state => state.weather.items)
-  const istWeatherData = useSelector(state => state.weather.istData)
   const [city, setCity] = useState("istanbul")
   const [moment, setMoment] = useState({})
   useEffect(() => {
-      // dispatch(fetchWeatherThunk())
+      dispatch(fetchWeatherThunk())
+      
       fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=0e8b2c4e5a41d2b3b81897c77b9e4d88`)
     	  .then(res => res.json())
         .then(data => setMoment(data))
@@ -53,24 +56,32 @@ function App() {
     border-radius : 50%;
 
   `
+  const ButtonStyle = styled.button`
+    background-color : #282c34;
+    border  : 1px solid #282c34;
+    font-size : 2em;
+  `
   const handleClick = (e) => {
     const sehir = e.target.value
     setCity(sehir)
-    dispatch(fetchWeatherThunk(city))
+    dispatch(fetchWeatherThunk(sehir))
     console.log(sehir)
+    console.log(weatherData)
+    console.log(city)
   }
   return (
     <div className="App">
       <div className="App-header">
         <div>
-          <button value="izmir" onClick={handleClick}>İzmir</button>
-          <button value="istanbul" onClick={handleClick}>İstanbul</button>
-          <button value="Ankara" onClick={handleClick}>Ankara</button>
-          <button value="Erzurum" onClick={handleClick}>Erzurum</button>
-          <button value="Antalya" onClick={handleClick}>Antalya</button>
-          <button value="Van" onClick={handleClick}>Van</button>
-          <button value="Edirne" onClick={handleClick}>Edirne</button>
-          <button value="Diyarbakır" onClick={handleClick}>Diyarbakır</button>
+          <ButtonStyle><button value="izmir" onClick={handleClick}>İzmir</button></ButtonStyle>
+          <ButtonStyle><button value="istanbul" onClick={handleClick}>İstanbul</button></ButtonStyle>
+          <ButtonStyle><button value="ankara" onClick={handleClick}>Ankara</button></ButtonStyle>
+          <ButtonStyle><button value="erzurum" onClick={handleClick}>Erzurum</button></ButtonStyle>
+          <ButtonStyle><button value="antalya" onClick={handleClick}>Antalya</button></ButtonStyle>
+          <ButtonStyle><button value="van" onClick={handleClick}>Van</button></ButtonStyle>
+          <ButtonStyle><button value="edirne" onClick={handleClick}>Edirne</button></ButtonStyle>
+          <ButtonStyle><button value="diyarbakır" onClick={handleClick}>Diyarbakır</button></ButtonStyle>
+          
         </div>
         <div className="main-div"> 
           <CityInfo>
@@ -93,6 +104,7 @@ function App() {
           </CityInfo>
           <div>
             <div>
+              <Symbol>{moment.weather[0].main === "Clear" && <GiNightSky/>}</Symbol>
               <Symbol>{moment.weather[0].main === "Clouds" && <AiOutlineCloud/> }</Symbol>
               <Symbol>{moment.weather[0].main === "Rain" && <RiRainyLine/>}</Symbol>
               <Symbol>{moment.weather[0].main === "Sunny" && <TiWeatherPartlySunny/>}</Symbol>
