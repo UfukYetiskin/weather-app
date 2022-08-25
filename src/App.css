@@ -27,6 +27,18 @@
 .App-link {
   color: #61dafb;
 }
+.main-div{
+  display: flex;
+  flex-direction:  row;
+  justify-content : space-around;
+  border : 1px solid grey;
+  padding  : 2%;
+  background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhoHjYyZ1DxTgomyLM9SQDz5j-gYaYjQrEmA&usqp=CAU");
+  border-radius : 10px;
+  background-repeat: no-repeat;
+  background-size: 100%;
+  box-shadow: 5px white, 5px white;
+}
 
 @keyframes App-logo-spin {
   from {
