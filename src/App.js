@@ -50,12 +50,6 @@ function App() {
   text-align: center;
   color : smokewhite;
   `
-  const Input = styled.div`
-    padding : 1%;
-    font-size 0.4em;
-    border-radius : 50%;
-
-  `
   const ButtonStyle = styled.button`
     background-color : #282c34;
     border  : 1px solid #282c34;
@@ -83,6 +77,7 @@ function App() {
           <ButtonStyle><button value="diyarbakır" onClick={handleClick}>Diyarbakır</button></ButtonStyle>
           
         </div>
+        {moment &&         
         <div className="main-div"> 
           <CityInfo>
           <div>
@@ -120,7 +115,7 @@ function App() {
             <div><Infos>Max Temp : {moment.main.temp_max /10}°</Infos></div>
             <div><Infos>Min Temp : {moment.main.temp_min /10}°</Infos></div>
           </div>
-        </div>
+        </div>}
 
       </div>
     </div>
