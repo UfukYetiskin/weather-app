@@ -1,19 +1,23 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const fetchWeatherThunk = createAsyncThunk("weather/fetchWeatherThunk", async (city) => {
+    console.log(city)
     const res = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&cnt=5&appid=0e8b2c4e5a41d2b3b81897c77b9e4d88`)   
     return res.json();
 })
-// export const fetchIstWeatherThunk = createAsyncThunk("weather/fetchIstWeatherThunk", async (city) => {
-//     const res = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=istanbul&cnt=5&appid=0e8b2c4e5a41d2b3b81897c77b9e4d88`)
-//     return res.json();
-// })
+export const fetchItemWeatherThunk = createAsyncThunk("weather/fetchIstWeatherThunk", async (city) => {
+    console.log(city)
+    const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=0e8b2c4e5a41d2b3b81897c77b9e4d88`)
+    return res.json();
+})
 
 const weatherSlice = createSlice({
     name : "weather",
     initialState : {
         items : "",
         status : "idle",
+        item : "",
+        stat : "idle",
     },
     reducers : {
 
@@ -30,17 +34,17 @@ const weatherSlice = createSlice({
             state.status = "failed"
             state.error = (action.error.message)
         },
-        // [fetchIstWeatherThunk.pending] : (state, action) => {
-        //     state.istStatus = "loading"
-        // },
-        // [fetchIstWeatherThunk.fulfilled] : (state, action) => {
-        //     state.istStatus  = "success"
-        //     state.istData = {...state.istData, ...action.payload}
-        // },
-        // [fetchIstWeatherThunk.rejected] : (state, action) => {
-        //     state.istStatus = "failed"
-        //     state.error = (action.error.message)
-        // }
+        [fetchItemWeatherThunk.pending] : (state, action) => {
+            state.stat = "loading"
+        },
+        [fetchItemWeatherThunk.fulfilled] : (state, action) => {
+            state.stat  = "success"
+            state.item= action.payload
+        },
+        [fetchItemWeatherThunk.rejected] : (state, action) => {
+            state.stat = "failed"
+            state.error = (action.error.message)
+        }
 
     }
 })

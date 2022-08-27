@@ -1,9 +1,11 @@
 import './App.css';
 import styled from "styled-components";
-import {fetchWeatherThunk} from './redux/weatherSlice'
+import {fetchWeatherThunk, fetchItemWeatherThunk} from './redux/weatherSlice'
 import {useState, useEffect} from 'react'
 import {useSelector, useDispatch} from 'react-redux'
 import WeatherList from './components/WeatherList';
+
+//Icons
 import {AiOutlineCloud} from '@react-icons/all-files/ai/AiOutlineCloud'
 import {RiRainyLine} from "@react-icons/all-files/ri/RiRainyLine"
 import {FaTemperatureLow} from "@react-icons/all-files/fa/FaTemperatureLow"
@@ -12,21 +14,23 @@ import {GiNightSky} from "@react-icons/all-files/gi/GiNightSky"
 
 
 function App() {
-  const dispatch = useDispatch();
-  const weatherData = useSelector(state => state.weather.items)
   const [city, setCity] = useState("istanbul")
-  const [moment, setMoment] = useState({})
+
+
+  const dispatch = useDispatch();
+
+  const items = useSelector(state => state.weather.items)
+  const item = useSelector(state => state.weather.item)
+  
+  
+
   useEffect(() => {
-      dispatch(fetchWeatherThunk())
-      
-      fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=0e8b2c4e5a41d2b3b81897c77b9e4d88`)
-    	  .then(res => res.json())
-        .then(data => setMoment(data))
-        .catch(err => console.log(err))
-  }, [dispatch, city])
+    // dispatch(fetchWeatherThunk())
+    // dispatch(fetchItemWeatherThunk())
 
+    
+  }, [dispatch,city])
 
-  console.log(moment)
 
 
   const City = styled.h1`
@@ -58,11 +62,13 @@ function App() {
   const handleClick = (e) => {
     const sehir = e.target.value
     setCity(sehir)
-    dispatch(fetchWeatherThunk(sehir))
-    console.log(sehir)
-    console.log(weatherData)
+    dispatch(fetchWeatherThunk(city))
+    dispatch(fetchItemWeatherThunk(city))
     console.log(city)
+    console.log(items)
+    console.log(item)
   }
+
   return (
     <div className="App">
       <div className="App-header">
@@ -75,49 +81,15 @@ function App() {
           <ButtonStyle><button value="van" onClick={handleClick}>Van</button></ButtonStyle>
           <ButtonStyle><button value="edirne" onClick={handleClick}>Edirne</button></ButtonStyle>
           <ButtonStyle><button value="diyarbakır" onClick={handleClick}>Diyarbakır</button></ButtonStyle>
-          
         </div>
-        {moment &&         
-        <div className="main-div"> 
-          <CityInfo>
-          <div>
-            <div>
-              <City>
-                {moment.name}
-              </City>
-            </div>
-              <div>
-                <Infos>{new Date().toLocaleDateString()}</Infos>
-              </div>
-            <div>
-            <Infos><FaTemperatureLow/>{moment.main.temp / 10}</Infos>
-            </div>
-            <div>
-              <Infos>{moment.main.feels_like / 10}°</Infos>
-            </div>
-          </div>
-          </CityInfo>
-          <div>
-            <div>
-              <Symbol>{moment.weather[0].main === "Clear" && <GiNightSky/>}</Symbol>
-              <Symbol>{moment.weather[0].main === "Clouds" && <AiOutlineCloud/> }</Symbol>
-              <Symbol>{moment.weather[0].main === "Rain" && <RiRainyLine/>}</Symbol>
-              <Symbol>{moment.weather[0].main === "Sunny" && <TiWeatherPartlySunny/>}</Symbol>
-            </div>
-            <div>
-              <Infos>{moment.weather[0].description}</Infos>
-            </div>
-          </div>
-          <div>
-            <div><Infos>Wind Degree : {moment.wind.deg}</Infos></div>
-            <div><Infos>Wind Speed : {moment.wind.speed}</Infos></div>
-            <div><Infos>Visibility : {moment.visibility}</Infos></div>
-            <div><Infos>Max Temp : {moment.main.temp_max /10}°</Infos></div>
-            <div><Infos>Min Temp : {moment.main.temp_min /10}°</Infos></div>
-          </div>
-        </div>}
+        {/* {items && <div>
+          {item.list.map((weather) => (
+            <li>{weather.dt}</li>
+          ))}
+        
+        </div>} */}
 
-      </div>
+      </div>  
     </div>
   );
 }
