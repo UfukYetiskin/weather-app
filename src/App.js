@@ -37,10 +37,6 @@ function App() {
     color : smokewhite;
     margin-top : 0;
   `;
-  const CityInfo = styled.div`
-    margin : 1%;
-    padding : 1%
-  `;
   const Symbol = styled.h1`
     font-size : 6em;
     text-align: center;
@@ -54,8 +50,37 @@ function App() {
   `
   const ButtonStyle = styled.button`
     background-color : #282c34;
-    border  : 1px solid #282c34;
-    font-size : 2em;
+    border  : 1px solid black;
+    font-size : 0.5em;
+    color : white;
+    margin : 5px
+  `
+  const List = styled.div`
+    display : flex;
+    flex-direction : row;
+    justify-content : space-between;
+
+  `
+  const Ul = styled.div`
+    width : 70%;
+    display: flex;
+    flex-direction:  row;
+    justify-content : space-around;
+    border : 1px solid white;
+    padding  : 2%;
+    background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhoHjYyZ1DxTgomyLM9SQDz5j-gYaYjQrEmA&usqp=CAU");
+    border-radius : 0 0 10px 10px;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    box-shadow: 5px white, 5px white;
+  `
+  const Li = styled.li`
+    list-style-type : none;
+    border-radius : 10px;
+    border : 1px solid grey;
+    font-size : 0.5em;
+    text-align : center;
+    margin : 1%
   `
   const handleClick = async (e) => {
     const sehir = e.target.value
@@ -71,23 +96,50 @@ function App() {
     <div className="App">
       <div className="App-header">
         <div>
-          <ButtonStyle><button value="izmir" onClick={handleClick}>İzmir</button></ButtonStyle>
-          <ButtonStyle><button value="istanbul" onClick={handleClick}>İstanbul</button></ButtonStyle>
-          <ButtonStyle><button value="ankara" onClick={handleClick}>Ankara</button></ButtonStyle>
-          <ButtonStyle><button value="erzurum" onClick={handleClick}>Erzurum</button></ButtonStyle>
-          <ButtonStyle><button value="antalya" onClick={handleClick}>Antalya</button></ButtonStyle>
-          <ButtonStyle><button value="van" onClick={handleClick}>Van</button></ButtonStyle>
-          <ButtonStyle><button value="edirne" onClick={handleClick}>Edirne</button></ButtonStyle>
-          <ButtonStyle><button value="diyarbakır" onClick={handleClick}>Diyarbakır</button></ButtonStyle>
+          <ButtonStyle value="izmir" onClick={handleClick}>İzmir</ButtonStyle>
+          <ButtonStyle value="istanbul" onClick={handleClick}>İstanbul</ButtonStyle>
+          <ButtonStyle value="ankara" onClick={handleClick}>Ankara</ButtonStyle>
+          <ButtonStyle value="erzurum" onClick={handleClick}>Erzurum</ButtonStyle>
+          <ButtonStyle value="antalya" onClick={handleClick}>Antalya</ButtonStyle>
+          <ButtonStyle value="van" onClick={handleClick}>Van</ButtonStyle>
+          <ButtonStyle value="edirne" onClick={handleClick}>Edirne</ButtonStyle>
+          <ButtonStyle value="diyarbakır" onClick={handleClick}>Diyarbakır</ButtonStyle>
         </div>
-         {items && <div>
+        <div className='main-div'>
+          <div>
+              <Symbol>{item?.weather[0]?.main === "Clear" && <GiNightSky/>}</Symbol>
+              <Symbol>{item?.weather[0]?.main === "Clouds" && <AiOutlineCloud/> }</Symbol>
+              <Symbol>{item?.weather[0]?.main === "Rain" && <RiRainyLine/>}</Symbol>
+              <Symbol>{item?.weather[0]?.main === "Sunny" && <TiWeatherPartlySunny/>}</Symbol>
+              <div>{item?.weather[0]?.description}</div>
+          </div>
+          <div>
+            <City>{item?.name}</City>
+            <Infos>{item?.main?.temp / 10}<FaTemperatureLow/></Infos>
+            <Infos>{item?.main?.feels_like / 10}</Infos>
+          </div>
+        </div>
+        <Ul>
+        {items && <List>
           {items?.map((weather) => (
-            <li>{weather.main.temp / 10}</li>
+            <Li>
+              <div>{weather.dt_txt}</div>
+              <Symbol>{item?.weather[0]?.main === "Clear" && <GiNightSky/>}</Symbol>
+              <Symbol>{item?.weather[0]?.main === "Clouds" && <AiOutlineCloud/> }</Symbol>
+              <Symbol>{item?.weather[0]?.main === "Rain" && <RiRainyLine/>}</Symbol>
+              <Symbol>{item?.weather[0]?.main === "Sunny" && <TiWeatherPartlySunny/>}</Symbol>
+              <div>{item?.weather[0]?.main}</div>
+              <div>{weather.main.temp / 10}°</div>
+            </Li>
           ))}
         
-        </div>} 
+        </List>}
+        </Ul>
 
-        {item.name}
+        
+          
+
+        
 
       </div>  
     </div>
