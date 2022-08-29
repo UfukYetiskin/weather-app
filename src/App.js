@@ -25,14 +25,12 @@ function App() {
   
 
   useEffect(() => {
-    // dispatch(fetchWeatherThunk())
-    // dispatch(fetchItemWeatherThunk())
+    dispatch(fetchWeatherThunk(city))
+    dispatch(fetchItemWeatherThunk(city))
+    console.log(items)    
+  }, [])
 
-    
-  }, [dispatch,city])
-
-
-
+    //Styles
   const City = styled.h1`
     font-size : 1.5em;
     text-align: center;
@@ -59,11 +57,11 @@ function App() {
     border  : 1px solid #282c34;
     font-size : 2em;
   `
-  const handleClick = (e) => {
+  const handleClick = async (e) => {
     const sehir = e.target.value
     setCity(sehir)
-    dispatch(fetchWeatherThunk(city))
-    dispatch(fetchItemWeatherThunk(city))
+    await dispatch(fetchWeatherThunk(sehir))
+    await dispatch(fetchItemWeatherThunk(sehir))
     console.log(city)
     console.log(items)
     console.log(item)
@@ -82,12 +80,14 @@ function App() {
           <ButtonStyle><button value="edirne" onClick={handleClick}>Edirne</button></ButtonStyle>
           <ButtonStyle><button value="diyarbakır" onClick={handleClick}>Diyarbakır</button></ButtonStyle>
         </div>
-        {/* {items && <div>
-          {item.list.map((weather) => (
-            <li>{weather.dt}</li>
+         {items && <div>
+          {items?.map((weather) => (
+            <li>{weather.main.temp / 10}</li>
           ))}
         
-        </div>} */}
+        </div>} 
+
+        {item.name}
 
       </div>  
     </div>
